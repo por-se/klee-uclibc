@@ -99,9 +99,10 @@ libc_hidden_weak(connect)
 
 #ifdef L_getpeername
 #ifdef __NR_getpeername
+#define __NR___libc_getpeername  __NR_getpeername
 _syscall3(int, getpeername, int, sockfd, struct sockaddr *, addr, socklen_t *,paddrlen);
 #elif defined(__NR_socketcall)
-int getpeername(int sockfd, struct sockaddr *addr, socklen_t * paddrlen)
+int __libc_getpeername(int sockfd, struct sockaddr *addr, socklen_t * paddrlen)
 {
 	unsigned long args[3];
 
@@ -111,14 +112,18 @@ int getpeername(int sockfd, struct sockaddr *addr, socklen_t * paddrlen)
 	return __socketcall(SYS_GETPEERNAME, args);
 }
 #endif
+libc_hidden_proto(getpeername)
+weak_alias(__libc_getpeername,getpeername)
+libc_hidden_weak(getpeername)
 #endif
 
 #ifdef L_getsockname
 libc_hidden_proto(getsockname)
 #ifdef __NR_getsockname
-_syscall3(int, getsockname, int, sockfd, struct sockaddr *, addr, socklen_t *,paddrlen);
+#define __NR___libc_getsockname  __NR_getsockname
+_syscall3(int, __libc_getsockname, int, sockfd, struct sockaddr *, addr, socklen_t *,paddrlen);
 #elif defined(__NR_socketcall)
-int getsockname(int sockfd, struct sockaddr *addr, socklen_t * paddrlen)
+int __libc_getsockname(int sockfd, struct sockaddr *addr, socklen_t * paddrlen)
 {
 	unsigned long args[3];
 
@@ -128,14 +133,17 @@ int getsockname(int sockfd, struct sockaddr *addr, socklen_t * paddrlen)
 	return __socketcall(SYS_GETSOCKNAME, args);
 }
 #endif
-libc_hidden_def(getsockname)
+libc_hidden_proto(getsockname)
+weak_alias(__libc_getsockname,getsockname)
+libc_hidden_weak(getsockname)
 #endif
 
 #ifdef L_getsockopt
 #ifdef __NR_getsockopt
-_syscall5(int, getsockopt, int, fd, int, level, int, optname, __ptr_t, optval, socklen_t *, optlen);
+#define __NR___libc_getsockopt  __NR_getsockopt
+_syscall5(int, __libc_getsockopt, int, fd, int, level, int, optname, __ptr_t, optval, socklen_t *, optlen);
 #elif defined(__NR_socketcall)
-int getsockopt(int fd, int level, int optname, __ptr_t optval,
+int __libc_getsockopt(int fd, int level, int optname, __ptr_t optval,
 		   socklen_t * optlen)
 {
 	unsigned long args[5];
@@ -148,6 +156,9 @@ int getsockopt(int fd, int level, int optname, __ptr_t optval,
 	return (__socketcall(SYS_GETSOCKOPT, args));
 }
 #endif
+libc_hidden_proto(getsockopt)
+weak_alias(__libc_getsockopt,getsockopt)
+libc_hidden_weak(getsockopt)
 #endif
 
 #ifdef L_listen
@@ -167,7 +178,7 @@ int __libc_listen(int sockfd, int backlog)
 #endif
 libc_hidden_proto(listen)
 weak_alias(__libc_listen,listen)
-libc_hidden_weak(listne)
+libc_hidden_weak(listen)
 #endif
 
 #ifdef L_recv
@@ -327,10 +338,11 @@ libc_hidden_weak(sendto)
 #ifdef L_setsockopt
 libc_hidden_proto(setsockopt)
 #ifdef __NR_setsockopt
-_syscall5(int, setsockopt, int, fd, int, level, int, optname, const void *, optval, socklen_t, optlen);
+#define __NR___libc_setsockopt  __NR_setsockopt
+_syscall5(int, __libc_setsockopt, int, fd, int, level, int, optname, const void *, optval, socklen_t, optlen);
 #elif defined(__NR_socketcall)
 /* [sg]etsockoptions by bir7@leland.stanford.edu */
-int setsockopt(int fd, int level, int optname, const void *optval,
+int __libc_setsockopt(int fd, int level, int optname, const void *optval,
 		   socklen_t optlen)
 {
 	unsigned long args[5];
@@ -343,16 +355,18 @@ int setsockopt(int fd, int level, int optname, const void *optval,
 	return (__socketcall(SYS_SETSOCKOPT, args));
 }
 #endif
-libc_hidden_def(setsockopt)
+libc_hidden_proto(setsockopt)
+weak_alias(__libc_setsockopt,setsockopt)
+libc_hidden_weak(setsockopt)
 #endif
 
 #ifdef L_shutdown
 #ifdef __NR_shutdown
 #define __NR___libc_shutdown  __NR_shutdown
-_syscall2(int, shutdown, int, sockfd, int, how);
+_syscall2(int, __libc_shutdown, int, sockfd, int, how);
 #elif defined(__NR_socketcall)
 /* shutdown by bir7@leland.stanford.edu */
-int shutdown(int sockfd, int how)
+int __libc_shutdown(int sockfd, int how)
 {
 	unsigned long args[2];
 
@@ -361,6 +375,9 @@ int shutdown(int sockfd, int how)
 	return (__socketcall(SYS_SHUTDOWN, args));
 }
 #endif
+libc_hidden_proto(shutdown)
+weak_alias(__libc_shutdown,shutdown)
+libc_hidden_weak(shutdown)
 #endif
 
 #ifdef L_socket
