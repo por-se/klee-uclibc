@@ -100,7 +100,7 @@ libc_hidden_weak(connect)
 #ifdef L_getpeername
 #ifdef __NR_getpeername
 #define __NR___libc_getpeername  __NR_getpeername
-_syscall3(int, getpeername, int, sockfd, struct sockaddr *, addr, socklen_t *,paddrlen);
+_syscall3(int, __libc_getpeername, int, sockfd, struct sockaddr *, addr, socklen_t *,paddrlen);
 #elif defined(__NR_socketcall)
 int __libc_getpeername(int sockfd, struct sockaddr *addr, socklen_t * paddrlen)
 {
