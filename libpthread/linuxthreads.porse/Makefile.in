@@ -1,0 +1,37 @@
+# Makefile for uClibc
+#
+# Copyright (C) 2003 Paul Mundt <lethal@linux-sh.org>
+# Copyright (C) 2000-2006 Erik Andersen <andersen@uclibc.org>
+#
+# Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
+#
+
+libpthread_DIR := $(top_srcdir)libpthread/linuxthreads.porse
+libpthread_OUT := $(top_builddir)libpthread/linuxthreads.porse
+
+#
+# Stuff that goes into libc.so, not libpthread.so
+#
+libc-static-y += $(libpthread_OUT)/dummy.o
+libc-shared-y += $(libpthread_OUT)/dummy.o
+
+objclean-y += libpthread_clean
+headers-$(UCLIBC_HAS_THREADS) += linuxthreads_headers
+headers_clean-y += linuxthreads_headers_clean
+
+linuxthreads_headers:
+	$(Q)$(LN) -sf ../$(PTDIR)/pthread.h $(top_builddir)include/
+	$(Q)$(LN) -sf ../$(PTDIR)/tls.h $(top_builddir)include/
+	$(Q)$(LN) -sf ../$(PTDIR)/semaphore.h $(top_builddir)include/
+	$(Q)$(INSTALL) -d $(top_builddir)include/bits
+	$(Q)$(LN) -sf ../../$(PTDIR)/bits/pthreadtypes.h $(top_builddir)include/bits/
+
+linuxthreads_headers_clean:
+	$(RM) $(top_builddir)include/pthread.h \
+		$(top_builddir)include/semaphore.h \
+		$(top_builddir)include/bits/pthreadtypes.h \
+		$(top_builddir)include/tls.h
+
+
+libpthread_clean:
+	$(RM) $(libpthread_OUT)/dummy.o

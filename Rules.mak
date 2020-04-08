@@ -448,7 +448,12 @@ else
 ifeq ($(LINUXTHREADS_OLD),y)
 	PTNAME := linuxthreads.old
 else
-	PTNAME := linuxthreads
+	ifeq ($(LINUXTHREADS_PORSE),y)
+		PTNAME := linuxthreads.porse
+		CFLAGS += -D__LINUXTHREADS_PORSE__
+	else
+		PTNAME := linuxthreads
+	endif
 endif
 endif
 PTDIR := $(top_builddir)libpthread/$(PTNAME)

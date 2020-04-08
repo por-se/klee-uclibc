@@ -31,6 +31,23 @@
 #define __UCLIBC_MUTEX_TRYLOCK_CANCEL_UNSAFE(M)								\
 		__pthread_mutex_trylock(&(M))
 
+#if defined(__LINUXTHREADS_PORSE__)
+
+#define __UCLIBC_MUTEX_CONDITIONAL_LOCK(M,C)								\
+	do {												\
+		if (C) {										\
+			__pthread_mutex_lock(&(M));							\
+		}											\
+		((void)0)
+
+#define __UCLIBC_MUTEX_CONDITIONAL_UNLOCK(M,C)								\
+		if (C) {										\
+			__pthread_mutex_unlock(&(M));		\
+		}											\
+	} while (0)
+
+#else
+
 #define __UCLIBC_MUTEX_CONDITIONAL_LOCK(M,C)								\
 	do {												\
 		struct _pthread_cleanup_buffer __infunc_pthread_cleanup_buffer;				\
@@ -47,6 +64,8 @@
 			_pthread_cleanup_pop_restore(&__infunc_pthread_cleanup_buffer,1);		\
 		}											\
 	} while (0)
+
+#endif
 
 #define __UCLIBC_MUTEX_AUTO_LOCK_VAR(A)		int A
 

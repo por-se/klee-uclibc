@@ -369,6 +369,13 @@ config LINUXTHREADS_OLD
 	  the latest code from glibc, so it may be the only choice for the
 	  newer ports (like alpha/amd64/64bit arches and hppa).
 
+config LINUXTHREADS_PORSE
+	bool "Use the stub version of linuxthreads"
+	default y
+	depends on UCLIBC_HAS_THREADS && !LINUXTHREADS_OLD
+	help
+	  Does not come with any functionality.
+
 config UCLIBC_HAS_LFS
 	bool "Large File Support"
 	default y

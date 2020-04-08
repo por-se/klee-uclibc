@@ -203,7 +203,9 @@ typedef __kernel_ipc_pid_t __ipc_pid_t;
 
 /* Now add the thread types.  */
 #if defined __UCLIBC_HAS_THREADS__ && (defined __USE_POSIX199506 || defined __USE_UNIX98)
+#ifndef __DO_NOT_DEFINE_PTHREAD_TYPES
 # include <bits/pthreadtypes.h>
+#endif
 #endif
 
 #endif /* bits/types.h */
