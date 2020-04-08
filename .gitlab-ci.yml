@@ -25,4 +25,4 @@ test:
     - rm -rf /workspace/klee-uclibc
     - cp -r . /workspace/klee-uclibc
     - rm -rf /workspace/.build/klee-uclibc-*
-    - /workspace/ws build -u klee-uclibc >build.log 2>&1
+    - /workspace/ws build >build.log 2>&1
